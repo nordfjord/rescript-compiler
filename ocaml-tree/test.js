@@ -55,7 +55,7 @@ globalThis.devtoolsFormatters.push(nodeFormatter);
 var fs = require("fs");
 var path = require("path");
 var j_dir = path.join(__dirname, "..", "jscomp", "core");
-var y = p.parse(fs.readFileSync(path.join(j_dir, "j.ml"), "utf8"));
+var y = p.parse(fs.readFileSync(path.join(j_dir, "lam.ml"), "utf8"));
 
 /**
  * mutual recursive types
@@ -64,13 +64,13 @@ var typedefs = getTypedefs(y);
 
 // var map_maker = require("./map_maker");
 // var fold_maker = require("./fold_maker");
-// var iter_maker = require("./iter_maker");
+
 // var fold = maker(fold_maker.make,typedefs);
 // var map = maker(map_maker.make,typedefs);
 // var iter = maker(iter_maker.make,typedefs);
 // var record_iter = require("./record_iter");
-var record_fold = require("./record_fold");
+var record_fold = require("./record_map");
 // var record_map = require("./record_map");
 var riter = maker(record_fold.make, typedefs);
 // console.log(fold, map);
-fs.writeFileSync(path.join(j_dir, "js_record_fold.ml"), riter, "utf8");
+fs.writeFileSync(path.join(j_dir, "lam_record_map.ml"), riter, "utf8");

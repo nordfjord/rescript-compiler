@@ -61,7 +61,7 @@ type lambda_switch  =
     sw_blocks: (int * t) list;
     sw_failaction: t option;
     sw_names: Lambda.switch_names option }
-and apply = private
+and apply = (* private *)
   { ap_func : t ; 
     ap_args : t list ; 
     ap_info : ap_info;
@@ -72,12 +72,12 @@ and lfunction =  {
   body : t ;
   attr : function_attribute;
 }
-and prim_info = private
+and prim_info = (* private *)
   { primitive : Lam_primitive.t ; 
     args : t list ; 
     loc : Location.t 
   }
-and  t =  private
+and  t =  (* private *)
   | Lvar of ident
   | Lglobal_module of ident
   | Lconst of Lam_constant.t

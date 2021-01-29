@@ -31,10 +31,21 @@ let scc  (groups :  bindings)
       )  clusters body 
 
 *)
+let super = Lam_record_map.super
+let scc_maper : Lam_record_map.iter = {  
+  t = (fun self t -> 
+    let lam = super.t self t in 
+    match lam with 
+    | Lletrec(bindings, body) -> 
+      Lam_scc.scc bindings lam body 
+    | _ -> lam
+  )
+}
 
-let rec scc_pass (lam : Lam.t) =  
+let scc_pass lam = scc_maper.t scc_maper lam 
+(* let rec scc_pass (lam : Lam.t) : Lam.t =  
     let lam = Lam.inner_map lam scc_pass in 
     match lam with 
     | Lletrec (bindings, body) -> 
          Lam_scc.scc bindings lam body   
-    | _ -> lam  
+    | _ -> lam   *)

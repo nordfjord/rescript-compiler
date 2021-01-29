@@ -136,6 +136,8 @@ function mkStructuralTy(def, allNames) {
           return `(fun ${snippet}) ${x}`; // TODO: could be inlined futher
         },
       };
+    case "parenthesized_type":
+      return mkStructuralTy(def.firstChild, allNames);
     default:
       throw new Error(`unsupported structural type ${def.type}`);
   }
