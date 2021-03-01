@@ -3,7 +3,7 @@
    Distributed under the ISC license, see terms at the end of the file.
    %%NAME%% %%VERSION%%
   ---------------------------------------------------------------------------*)
-[@@@ocaml.warn "-a"]
+[@@@ocaml.warning "-A"]
 let rev_compare n0 n1 = compare n1 n0
 
 (* Invalid_argument strings **)
@@ -299,8 +299,8 @@ let man_fmt_docv = "FMT"
 let man_fmts_enum = Cmdliner_base.enum man_fmts
 let man_fmts_alts = doc_alts_enum man_fmts
 let man_fmts_doc kind =
-  strf "Show %s in format $(docv). The value $(docv) must be %s. With `auto',
-        the format is `pager` or `plain' whenever the $(b,TERM) env var is
+  strf "Show %s in format $(docv). The value $(docv) must be %s. With `auto',\
+        the format is `pager` or `plain' whenever the $(b,TERM) env var is\
         `dumb' or undefined."
     kind man_fmts_alts
 

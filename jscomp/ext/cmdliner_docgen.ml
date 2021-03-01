@@ -3,7 +3,7 @@
    Distributed under the ISC license, see terms at the end of the file.
    %%NAME%% %%VERSION%%
   ---------------------------------------------------------------------------*)
-
+[@@@ocaml.warning "-a"]
 let rev_compare n0 n1 = compare n1 n0
 let strf = Printf.sprintf
 

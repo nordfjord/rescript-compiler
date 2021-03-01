@@ -3,7 +3,7 @@
    Distributed under the ISC license, see terms at the end of the file.
    %%NAME%% %%VERSION%%
   ---------------------------------------------------------------------------*)
-
+[@@@ocaml.warning "-a"]
 
 let new_id =       (* thread-safe UIDs, Oo.id (object end) was used before. *)
   let c = ref 0 in
