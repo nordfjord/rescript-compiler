@@ -73,7 +73,7 @@ val external_var_field :
   external_name:string -> 
   Ident.t ->
   field:string -> 
-  default:bool ->
+  default:Js_op.default ->
   t
 
 val external_var : 

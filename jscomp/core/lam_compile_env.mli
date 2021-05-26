@@ -56,7 +56,7 @@ val reset : unit -> unit
 val add_js_module : 
   External_ffi_types.module_bind_name -> 
   string  -> 
-  bool -> 
+  Js_op.default -> 
   Ident.t 
 
 

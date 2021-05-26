@@ -91,7 +91,7 @@ let es6_export cxt f (idents : Ident.t list) =
 
 
 (** Node or Google module style imports *)
-let requires require_lit cxt f (modules : (Ident.t * string * bool) list ) =
+let requires require_lit cxt f (modules : (Ident.t * string * Js_op.default) list ) =
   P.newline f ; 
   (* the context used to print the following program *)  
   let outer_cxt, reversed_list  =
@@ -111,14 +111,16 @@ let requires require_lit cxt f (modules : (Ident.t * string * bool) list ) =
       P.string f require_lit;
       P.paren_group f 0  (fun _ ->
           Js_dump_string.pp_string f file  );
-      (if default then P.string f ".default");
+      (match default with 
+       | Default_yes ->  P.string f ".default"  
+       | Default_no -> ());
       P.string f L.semi;
       P.newline f ;
     ) ;
   outer_cxt  
 
 (** ES6 module style imports *)
-let imports  cxt f (modules : (Ident.t * string * bool) list ) =
+let imports  cxt f (modules : (Ident.t * string * Js_op.default) list ) =
   P.newline f ; 
   (* the context used to print the following program *)  
   let outer_cxt, reversed_list =
@@ -131,24 +133,26 @@ let imports  cxt f (modules : (Ident.t * string * bool) list ) =
   Ext_list.rev_iter reversed_list (fun (s,file,default) ->    
       P.string f L.import;
       P.space f ;
-      if default then begin
-        P.string f s;
-        P.space f ;
-        P.string f L.from;
-        P.space f;
-        Js_dump_string.pp_string f file 
-      end
-      else begin       
-        P.string f L.star ;
-        P.space f ; (* import * as xx from 'xx'*) 
-        P.string f L.as_ ; 
-        P.space f ; 
-        P.string f s ; 
-        P.space f ;
-        P.string f L.from;
-        P.space f;
-        Js_dump_string.pp_string f file ;
-      end;
+      ( match default with 
+        | Default_yes -> begin
+            P.string f s;
+            P.space f ;
+            P.string f L.from;
+            P.space f;
+            Js_dump_string.pp_string f file 
+          end
+        | Default_no -> 
+          begin       
+            P.string f L.star ;
+            P.space f ; (* import * as xx from 'xx'*) 
+            P.string f L.as_ ; 
+            P.space f ; 
+            P.string f s ; 
+            P.space f ;
+            P.string f L.from;
+            P.space f;
+            Js_dump_string.pp_string f file ;
+          end);
       P.string f L.semi ;
       P.newline f ;
     ) ;

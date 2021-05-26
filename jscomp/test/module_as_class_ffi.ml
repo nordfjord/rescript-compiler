@@ -1,4 +1,9 @@
-
+[@@@config{flags = [|
+    "-bs-package-output"; 
+    "es6:jscomp/test:.mjs"
+  |]
+  }
+]
 type t
 
 external mk : int -> t = "xx/foo_class" [@@bs.new] [@@bs.module]

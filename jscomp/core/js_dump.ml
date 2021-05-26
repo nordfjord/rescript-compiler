@@ -526,7 +526,7 @@ and vident cxt f  (v : J.vident) =
   match v with
   | Id v 
   | Qualified({id  = v }, None) 
-  | Qualified({id  = v ; kind = External {default = true }}, _) ->
+  | Qualified({id  = v ; kind = External {default = Default_yes }}, _) ->
     Ext_pp_scope.ident cxt f v
   | Qualified ({id; kind = Ml | Runtime},  Some name) ->
     let cxt = Ext_pp_scope.ident cxt f id in

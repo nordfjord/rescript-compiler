@@ -134,10 +134,15 @@ type level =
   | Warn
   | Error
 
+type default = 
+  | Default_no 
+  | Default_yes
+  
+
 type kind = 
   | Ml
   | Runtime 
-  | External of {name : string; default : bool}
+  | External of {name : string; default : default}
 
 type property = Lam_compat.let_kind = 
   | Strict

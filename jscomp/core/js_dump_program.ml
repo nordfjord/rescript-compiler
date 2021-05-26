@@ -73,7 +73,7 @@ let dump_program (x : J.program) oc =
   ignore (program (P.from_channel oc)  Ext_pp_scope.empty  x )
 
 let [@inline] is_default (x : Js_op.kind) =  
-  match x with External {default} -> default | _ -> false
+  match x with External {default} -> default | _ -> Default_no
 
 let node_program ~output_dir f ( x : J.deps_program) = 
   P.string f L.strict_directive; 

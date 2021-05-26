@@ -108,7 +108,7 @@ let external_var_field ?comment  ~external_name:name (id : Ident.t)  ~field ~def
 
 let external_var ?comment ~external_name (id : Ident.t) : t =   
   {expression_desc = 
-     Var (Qualified({id; kind = External {name=external_name; default = false}},  None)); comment }
+     Var (Qualified({id; kind = External {name=external_name; default = Default_no}},  None)); comment }
 
 let ml_module_as_var ?comment (id : Ident.t) : t  = 
   {expression_desc = Var (Qualified ({id; kind = Ml}, None)); comment}
