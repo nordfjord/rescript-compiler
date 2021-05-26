@@ -1,13 +1,15 @@
 'use strict';
 
-var Foo_class = require("xx/foo_class");
+var Foo_class = require("xx/foo_class").default;
+var Foo_class$1 = require("xx/foo_class");
 
 function f(param) {
-  return new Foo_class(3);
+  return new Foo_class$1(3);
 }
 
 function v(param) {
-  return Foo_class.ff(3);
+  Foo_class$1.ff(3);
+  return Foo_class(3);
 }
 
 exports.f = f;

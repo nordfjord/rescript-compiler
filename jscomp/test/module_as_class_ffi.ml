@@ -29,5 +29,7 @@ let ff () =
 
 external ff : int -> t = "ff" [@@bs.module "xx/foo_class"]
 
+external hi : int -> t = "default" [@@bs.module "xx/foo_class"]
 let v () =
-  ff 3  
+  let _ = ff 3  in
+  hi 3

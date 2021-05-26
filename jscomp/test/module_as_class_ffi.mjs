@@ -1,13 +1,15 @@
 
 
-import * as Foo_class from "xx/foo_class";
+import Foo_class from "xx/foo_class";
+import * as Foo_class$1 from "xx/foo_class";
 
 function f(param) {
-  return new Foo_class(3);
+  return new Foo_class$1(3);
 }
 
 function v(param) {
-  return Foo_class.ff(3);
+  Foo_class$1.ff(3);
+  return Foo_class(3);
 }
 
 export {
