@@ -35,6 +35,15 @@ let print_if ppf flag printer arg =
   if !flag then fprintf ppf "%a@." printer arg
 
 
+let output_deps_set name  set  =
+  output_string stdout name;   
+  output_string stdout ": ";
+  Depend.StringSet.iter (fun s -> 
+      if s <> "" && s.[0] <> '*' then begin 
+        output_string stdout s ; 
+        output_string stdout " "
+      end ) set;
+  output_string stdout "\n"
 
 let process_with_gentype filename =    
   match !Clflags.bs_gentype with
@@ -56,9 +65,13 @@ let process_with_gentype filename =
 
 let after_parsing_sig ppf  outputprefix ast  =
   Ast_config.iter_on_bs_config_sigi ast;  
+  if !Js_config.modules then begin
+    let set = Ast_extract.read_parse_and_extract Mli ast in 
+    output_deps_set !Location.input_name set
+  end;
   if !Js_config.binary_ast then
     begin 
-      let sourcefile = !Location.input_name in   
+      let sourcefile = !Location.input_name in         
       Binary_ast.write_ast
         Mli
         ~sourcefile
@@ -108,8 +121,8 @@ let interface ~parser ppf ?outputprefix fname  =
   parser fname
   |> Cmd_ppx_apply.apply_rewriters ~restore:false ~tool_name:Js_config.tool_name Mli 
   |> Ppx_entry.rewrite_signature
-  |> print_if_pipe ppf Clflags.dump_parsetree Printast.interface
-  |> print_if_pipe ppf Clflags.dump_source Pprintast.signature 
+  (* |> print_if_pipe ppf Clflags.dump_parsetree Printast.interface
+  |> print_if_pipe ppf Clflags.dump_source Pprintast.signature  *)
   |> after_parsing_sig ppf  outputprefix 
 
 let interface_mliast ppf fname  setup = 
@@ -161,6 +174,10 @@ let after_parsing_impl ppf  outputprefix (ast : Parsetree.structure) =
   let ast =
     if !Js_config.no_export  then 
       no_export ast else ast in     
+  if !Js_config.modules then begin
+    let set = Ast_extract.read_parse_and_extract Ml ast in 
+    output_deps_set !Location.input_name set 
+  end;  
   if !Js_config.binary_ast then begin 
     let sourcefile = !Location.input_name in 
     Binary_ast.write_ast ~sourcefile
@@ -211,8 +228,8 @@ let implementation ~parser ppf ?outputprefix fname   =
   parser fname
   |> Cmd_ppx_apply.apply_rewriters ~restore:false ~tool_name:Js_config.tool_name Ml  
   |> Ppx_entry.rewrite_implementation
-  |> print_if_pipe ppf Clflags.dump_parsetree Printast.implementation
-  |> print_if_pipe ppf Clflags.dump_source Pprintast.structure
+  (* |> print_if_pipe ppf Clflags.dump_parsetree Printast.implementation
+  |> print_if_pipe ppf Clflags.dump_source Pprintast.structure *)
   |> after_parsing_impl ppf outputprefix 
 
 let implementation_mlast ppf fname  setup = 
